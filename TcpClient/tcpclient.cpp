@@ -9,6 +9,12 @@ TcpClient::TcpClient(QWidget *parent)
 {
     ui->setupUi(this);
     loadConfig();
+    //连接服务器
+    //其他写法：
+    //connect(&m_tcpSocket,&QTcpSocket::connected,this,&TcpClient::showConnect);
+    
+    connect(&m_tcpSocket,SIGNAL(connected()),this,SLOT(showConnect()));
+    m_tcpSocket.connectToHost(QHostAddress(m_strIP),m_usPort);
 }
 
 TcpClient::~TcpClient()
@@ -16,7 +22,7 @@ TcpClient::~TcpClient()
     delete ui;
 }
 
-//定义加载配置文件
+//加载配置文件函数
 void TcpClient::loadConfig()
 {
     QFile file(":/client.config");
@@ -42,4 +48,10 @@ void TcpClient::loadConfig()
         //错误提示
         QMessageBox::critical(this,"错误提示","配置文件打开失败");
     }
+}
+
+//提示连接的槽函数
+void TcpClient::showConnect()
+{
+    QMessageBox::information(this,"连接服务器","成功连接");
 }

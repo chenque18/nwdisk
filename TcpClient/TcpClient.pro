@@ -1,4 +1,5 @@
-QT += widgets
+#添加网络模块
+QT += widgets network
 
 CONFIG += c++17
 

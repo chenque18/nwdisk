@@ -281,6 +281,7 @@ Makefile: ../../TcpClient.pro G:/Qt/6.8.3/mingw_64/mkspecs/win32-g++/qmake.conf 
 		../../TcpClient.pro \
 		G:/Qt/6.8.3/mingw_64/lib/Qt6Widgets.prl \
 		G:/Qt/6.8.3/mingw_64/lib/Qt6Gui.prl \
+		G:/Qt/6.8.3/mingw_64/lib/Qt6Network.prl \
 		G:/Qt/6.8.3/mingw_64/lib/Qt6Core.prl \
 		G:/Qt/6.8.3/mingw_64/lib/Qt6EntryPoint.prl \
 		G:/Qt/6.8.3/mingw_64/mkspecs/features/build_pass.prf \
@@ -497,6 +498,7 @@ G:/Qt/6.8.3/mingw_64/mkspecs/features/lex.prf:
 ../../TcpClient.pro:
 G:/Qt/6.8.3/mingw_64/lib/Qt6Widgets.prl:
 G:/Qt/6.8.3/mingw_64/lib/Qt6Gui.prl:
+G:/Qt/6.8.3/mingw_64/lib/Qt6Network.prl:
 G:/Qt/6.8.3/mingw_64/lib/Qt6Core.prl:
 G:/Qt/6.8.3/mingw_64/lib/Qt6EntryPoint.prl:
 G:/Qt/6.8.3/mingw_64/mkspecs/features/build_pass.prf:
