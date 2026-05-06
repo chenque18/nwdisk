@@ -3,6 +3,7 @@
 #include <QByteArray>
 #include <QDebug>
 #include <QMessageBox>
+#include<QHostAddress>
 TcpClient::TcpClient(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::TcpClient)

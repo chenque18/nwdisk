@@ -756,7 +756,8 @@ release/tcpclient.o: ../../tcpclient.cpp ../../tcpclient.h \
 		G:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
 		G:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
 		G:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
-		G:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h
+		G:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+		G:/Qt/6.8.3/mingw_64/include/QtNetwork/QHostAddress
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\tcpclient.o ..\..\tcpclient.cpp
 
 release/qrc_config.o: release/qrc_config.cpp 

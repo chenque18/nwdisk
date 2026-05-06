@@ -8,7 +8,7 @@ QT += widgets network
 修改了 .pro 文件后，Qt Creator 或 VS Code 的构建系统不会自动立刻生效。你需要重新运行 qmake  
 
 # 思路
-在构造函数中连接服务器，监听连接成功的信号，捕获连接信号槽函数  
+加载配置文件，socket连接服务器，监听连接成功的信号，弹出消息框显示连接成功
 
 # 代码实现
 tcpclient.h

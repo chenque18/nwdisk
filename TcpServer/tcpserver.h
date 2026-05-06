@@ -1,0 +1,27 @@
+#ifndef TCPSERVER_H
+#define TCPSERVER_H
+
+#include <QWidget>
+#include<QFile>
+QT_BEGIN_NAMESPACE
+namespace Ui {
+class TcpServer;
+}
+QT_END_NAMESPACE
+
+class TcpServer : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit TcpServer(QWidget *parent = nullptr);
+    ~TcpServer() override;
+    //初始化加载配置文件
+    void loadConfig();
+
+private:
+    Ui::TcpServer *ui;
+    QString m_strIP;
+    quint16 m_usPort;
+};
+#endif // TCPSERVER_H
