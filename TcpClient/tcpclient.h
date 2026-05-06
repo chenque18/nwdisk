@@ -22,6 +22,9 @@ public:
 public slots:
     //捕获连接信号槽函数
     void showConnect();
+private slots:
+    void on_send_pb_clicked();
+
 private:
     Ui::TcpClient *ui;
     //存放ip和port
