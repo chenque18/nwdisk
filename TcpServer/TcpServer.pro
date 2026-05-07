@@ -1,4 +1,4 @@
-QT += widgets network
+QT += widgets network sql
 
 CONFIG += c++17
 
@@ -10,12 +10,14 @@ SOURCES += \
     main.cpp \
     mytcpserver.cpp \
     mytcpsocket.cpp \
+    opedb.cpp \
     protocol.cpp \
     tcpserver.cpp
 
 HEADERS += \
     mytcpserver.h \
     mytcpsocket.h \
+    opedb.h \
     protocol.h \
     tcpserver.h
 

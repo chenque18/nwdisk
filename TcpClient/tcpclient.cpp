@@ -12,6 +12,7 @@ TcpClient::TcpClient(QWidget *parent)
     , ui(new Ui::TcpClient)
 {
     ui->setupUi(this);
+    this->setFixedSize(370,350);
     loadConfig();
     //连接服务器
     //其他写法：
@@ -59,7 +60,7 @@ void TcpClient::showConnect()
 {
     QMessageBox::information(this,"连接服务器","成功连接");
 }
-
+#if 0
 void TcpClient::on_send_pb_clicked()
 {
     QString strMsg=ui->lineEdit->text();
@@ -75,5 +76,37 @@ void TcpClient::on_send_pb_clicked()
         free(pdu);
         pdu=NULL;
     }
+}
+#endif
+
+void TcpClient::on_login_btn_clicked()
+{
+
+}
+
+
+void TcpClient::on_regist_btn_clicked()
+{
+    QString strname=ui->name_edit->text();
+    QString strpwd=ui->pwd_edit->text();
+    if(!strname.isEmpty() && !strpwd.isEmpty())//都不为空
+    {
+        PDU*pdu=makePDU(0);
+        pdu->uiMsgType=ENUM_MSG_TYPE_REGiST_REQUEST; //注册请求
+        strncpy(pdu->caData,strname.toStdString().c_str(),32);
+        strncpy(pdu->caData+32,strpwd.toStdString().c_str(),32);
+        //通过socket发送
+        m_tcpSocket.write((char*)pdu,pdu->uiMsgLen);
+        free(pdu);
+        pdu=NULL;
+    }else{
+        QMessageBox::warning(this,"错误","注册失败:用户名或密码不能为空");
+    }
+}
+
+
+void TcpClient::on_logout_clicked()
+{
+
 }
 

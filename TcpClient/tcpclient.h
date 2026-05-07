@@ -23,7 +23,13 @@ public slots:
     //捕获连接信号槽函数
     void showConnect();
 private slots:
-    void on_send_pb_clicked();
+    //void on_send_pb_clicked();
+
+    void on_login_btn_clicked();
+
+    void on_regist_btn_clicked();
+
+    void on_logout_clicked();
 
 private:
     Ui::TcpClient *ui;
