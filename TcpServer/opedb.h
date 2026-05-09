@@ -11,6 +11,8 @@ public:
     explicit OpeDB(QObject *parent = nullptr);
     static OpeDB& getInstance();
     void init();
+    bool handleRegist(const char* name,const char* pwd);
+    bool handleLogin(const char* name,const char* pwd);
     ~OpeDB();//析构函数关闭数据库
 
 signals:

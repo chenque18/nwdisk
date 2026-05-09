@@ -3,13 +3,19 @@
 
 //将总的长度定义为无符号整型
 typedef unsigned int uint;
+#define REGIST_OK "regist ok"
+#define REGIST_FAILED "regist failed"
 
+
+#define LOGIN_OK "login ok"
+#define LOGIN_FAILED "login failed"
 //将消息类型写成枚举类
 enum ENUM_MSG_TYPE{
     ENUM_MSG_TYPE_MIN=0,
     ENUM_MSG_TYPE_REGiST_REQUEST,//注册请求
     ENUM_MSG_TYPE_REGIST_RESPOND,//回复类型
-    // ENUM_MSG_TYPE_REQUEST,
+    ENUM_MSG_TYPE_LOGIN_REQUEST,
+    ENUM_MSG_TYPE_LOGIN_RESPOND,
     // ENUM_MSG_TYPE_RESPOND,
     // ENUM_MSG_TYPE_REQUEST,
     // ENUM_MSG_TYPE_RESPOND,

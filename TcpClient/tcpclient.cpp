@@ -19,7 +19,9 @@ TcpClient::TcpClient(QWidget *parent)
     //connect(&m_tcpSocket,&QTcpSocket::connected,this,&TcpClient::showConnect);
     
     connect(&m_tcpSocket,SIGNAL(connected()),this,SLOT(showConnect()));
+    connect(&m_tcpSocket,SIGNAL(readyRead()),this,SLOT(receivemsg()));
     m_tcpSocket.connectToHost(QHostAddress(m_strIP),m_usPort);
+    
 }
 
 TcpClient::~TcpClient()
@@ -60,6 +62,52 @@ void TcpClient::showConnect()
 {
     QMessageBox::information(this,"连接服务器","成功连接");
 }
+
+void TcpClient::receivemsg()
+{
+    qDebug()<<m_tcpSocket.bytesAvailable();
+    uint uiPDULen=0;
+    //先读出前4字节
+    m_tcpSocket.read((char*)&uiPDULen,sizeof(uint));
+    //实际消息长度
+    uint uiMsgLen=uiPDULen-sizeof(PDU);
+    PDU*pdu=makePDU(uiMsgLen);
+    //读取其余数据
+    m_tcpSocket.read((char*)pdu+sizeof(uint),uiPDULen-sizeof(uint));
+    //qDebug()<<pdu->uiMsgType<<(char*)(pdu->caMsg);
+    switch(pdu->uiMsgType){
+    case ENUM_MSG_TYPE_REGIST_RESPOND:{//回复类型
+        if(0==strcmp(pdu->caData,REGIST_OK)){
+            QMessageBox::information(this,"注册","成功");
+            }
+        else if(0==strcmp(pdu->caData,REGIST_FAILED)){
+            QMessageBox::warning(this,"注册","用户名已存在，注册失败");
+
+            }
+    }
+        break;
+    case ENUM_MSG_TYPE_LOGIN_RESPOND:{//登录回复类型
+        if(0==strcmp(pdu->caData,LOGIN_OK)){
+            QMessageBox::information(this,"登录","成功");
+        }
+        else if(0==strcmp(pdu->caData,LOGIN_FAILED)){
+            QMessageBox::warning(this,"登录","失败");
+
+        }
+    }
+        break;
+
+
+
+    default:
+        break;
+    }
+    free(pdu);
+    pdu=NULL;
+
+}
+
+
 #if 0
 void TcpClient::on_send_pb_clicked()
 {
@@ -81,7 +129,21 @@ void TcpClient::on_send_pb_clicked()
 
 void TcpClient::on_login_btn_clicked()
 {
-
+    QString strname=ui->name_edit->text();
+    QString strpwd=ui->pwd_edit->text();
+    if(!strname.isEmpty() && !strpwd.isEmpty())//都不为空
+    {
+        PDU*pdu=makePDU(0);
+        pdu->uiMsgType=ENUM_MSG_TYPE_LOGIN_REQUEST; //登录请求
+        strncpy(pdu->caData,strname.toStdString().c_str(),32);
+        strncpy(pdu->caData+32,strpwd.toStdString().c_str(),32);
+        //通过socket发送
+        m_tcpSocket.write((char*)pdu,pdu->uiPDULen);
+        free(pdu);
+        pdu=NULL;
+    }else{
+        QMessageBox::warning(this,"错误","登录失败:用户名或密码不能为空");
+    }
 }
 
 
@@ -96,7 +158,7 @@ void TcpClient::on_regist_btn_clicked()
         strncpy(pdu->caData,strname.toStdString().c_str(),32);
         strncpy(pdu->caData+32,strpwd.toStdString().c_str(),32);
         //通过socket发送
-        m_tcpSocket.write((char*)pdu,pdu->uiMsgLen);
+        m_tcpSocket.write((char*)pdu,pdu->uiPDULen);
         free(pdu);
         pdu=NULL;
     }else{

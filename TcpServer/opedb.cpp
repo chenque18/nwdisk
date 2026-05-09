@@ -38,6 +38,38 @@ void OpeDB::init()
     }
 }
 
+bool OpeDB::handleRegist(const char *name, const char *pwd)
+{
+    if(name==nullptr || pwd==nullptr)
+    {
+        return false;
+    }
+    //使用sql语句写入
+    QString data=QString("insert into usrinfo(name,pwd) values('%1','%2')").arg(name).arg(pwd);
+    QSqlQuery query;
+    return query.exec(data);
+}
+
+bool OpeDB::handleLogin(const char *name, const char *pwd)
+{
+    if(name==nullptr || pwd==nullptr)
+    {
+        return false;
+    }
+    QString data=QString("select *from usrinfo where name='%1' and pwd='%2' and online=0").arg(name).arg(pwd);
+    QSqlQuery query;
+    query.exec(data);
+    if(query.next()){//看看有没有记录
+        //如果有记录，说明登录成功，修改在线状态
+        QString updata=QString("update usrinfo set online=1 where name='%1'").arg(name);
+        query.exec(updata);
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 OpeDB::~OpeDB()
 {
     m_db.close();
