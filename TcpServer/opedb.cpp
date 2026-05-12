@@ -70,6 +70,33 @@ bool OpeDB::handleLogin(const char *name, const char *pwd)
     }
 }
 
+void OpeDB::handleOFFline(const char *name)
+{
+    if(name==nullptr)
+    {
+        qDebug()<<"名字为空";
+        return;
+    }
+    QString data=QString("update usrinfo set online=0 where name='%1'").arg(name);
+    QSqlQuery query;
+    query.exec(data);
+
+}
+
+QStringList OpeDB::handleAllOnline()
+{
+    QString data=QString("select name from usrinfo where online=1");
+    QSqlQuery query;
+    query.exec(data);
+
+    QStringList result;
+    result.clear();
+    while(query.next()){//查询结果有多行，循环读取
+        result.append(query.value(0).toString());
+    }
+    return result;
+}
+
 OpeDB::~OpeDB()
 {
     m_db.close();

@@ -15,6 +15,8 @@ public:
     static MyTcpServer &getInstance();
     //使用incomingConnection,只有发现客户端连接，自动调用函数
     void incomingConnection(qintptr socketDescriptor) override;
+public slots:
+    void deletesockeet(MyTcpSocket *mysocket);
 private:
     QList<MyTcpSocket*> m_tcpSocketList;
 };

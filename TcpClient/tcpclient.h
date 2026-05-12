@@ -19,6 +19,8 @@ public:
     ~TcpClient() override;
     //初始化加载配置文件
     void loadConfig();
+    static TcpClient& getInstance();
+    QTcpSocket&getTcpSocket();
 public slots:
     //捕获连接信号槽函数
     void showConnect();

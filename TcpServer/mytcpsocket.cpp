@@ -6,7 +6,15 @@ MyTcpSocket::MyTcpSocket(QObject *parent)
     : QTcpSocket{parent}
 {
     connect(this,SIGNAL(readyRead()),this,SLOT(receiveMsg()));
+    connect(this,SIGNAL(disconnected()),this,SLOT(clientOFFline()));
 }
+
+QString MyTcpSocket::getname()
+{
+    return m_strName;
+}
+
+
 
 void MyTcpSocket::receiveMsg()
 {
@@ -32,6 +40,7 @@ void MyTcpSocket::receiveMsg()
         if(ret)
         {
             strcpy(respondPDU->caData,REGIST_OK);
+
         }
         else{
             strcpy(respondPDU->caData,REGIST_FAILED);
@@ -54,6 +63,7 @@ void MyTcpSocket::receiveMsg()
         if(ret)
         {
             strcpy(respondPDU->caData,LOGIN_OK);
+            m_strName=caName;
         }
         else{
             strcpy(respondPDU->caData,LOGIN_FAILED);
@@ -62,7 +72,20 @@ void MyTcpSocket::receiveMsg()
         free(respondPDU);
         respondPDU=NULL;
         break;
+    }
+    case ENUM_MSG_TYPE_ALL_ONLINE_REQUEST:{
 
+        QStringList ret=OpeDB::getInstance().handleAllOnline();
+        uint uiMsgLen=ret.size()*32;//每个用户名占32字节
+        PDU *repdu=makePDU(uiMsgLen);
+        repdu->uiMsgType=ENUM_MSG_TYPE_ALL_ONLINE_RESPOND;
+        for(int i=0;i<ret.size();++i){
+            memcpy((char*)(repdu->caMsg)+i*32,ret[i].toStdString().c_str(),32);
+        }
+        write((char*)repdu,repdu->uiPDULen);
+        free(repdu);
+        repdu=nullptr;
+        break;
     }
     default:
         break;
@@ -71,4 +94,10 @@ void MyTcpSocket::receiveMsg()
     pdu=NULL;
 
 
+}
+
+void MyTcpSocket::clientOFFline()
+{
+    OpeDB::getInstance().handleOFFline(m_strName.toStdString().c_str());
+    emit OFFline(this);
 }

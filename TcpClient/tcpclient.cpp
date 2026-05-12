@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include<QHostAddress>
 
-
+#include"opewidget.h"
 #include "protocol.h"
 TcpClient::TcpClient(QWidget *parent)
     : QWidget(parent)
@@ -57,6 +57,17 @@ void TcpClient::loadConfig()
     }
 }
 
+TcpClient &TcpClient::getInstance()
+{
+    static TcpClient instance;
+    return instance;
+}
+
+QTcpSocket &TcpClient::getTcpSocket()
+{
+    return m_tcpSocket;
+}
+
 //提示连接的槽函数
 void TcpClient::showConnect()
 {
@@ -84,18 +95,27 @@ void TcpClient::receivemsg()
             QMessageBox::warning(this,"注册","用户名已存在，注册失败");
 
             }
-    }
         break;
+    }
+
     case ENUM_MSG_TYPE_LOGIN_RESPOND:{//登录回复类型
         if(0==strcmp(pdu->caData,LOGIN_OK)){
             QMessageBox::information(this,"登录","成功");
+            OpeWidget::getInstance().show();
+            this->hide();
+
         }
         else if(0==strcmp(pdu->caData,LOGIN_FAILED)){
             QMessageBox::warning(this,"登录","失败");
 
         }
-    }
         break;
+    }
+    case ENUM_MSG_TYPE_ALL_ONLINE_RESPOND:{
+        OpeWidget::getInstance().getFriend()->showAllOnlineUsr(pdu);//获得好友界面
+        break;
+    }
+
 
 
 
