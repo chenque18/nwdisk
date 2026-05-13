@@ -97,6 +97,30 @@ QStringList OpeDB::handleAllOnline()
     return result;
 }
 
+int OpeDB::handleSearchUsr(const char *name)
+{
+    if(name==nullptr)
+    {
+        return -1;
+    }
+    QString data=QString("select online from usrinfo where name='%1'").arg(name);
+    QSqlQuery query;
+    query.exec(data);
+    if(query.next()){
+        int ret=query.value(0).toInt();
+        if(ret==1){
+            return 1;//在线
+        }
+        else{
+            return 0;//不在线
+        }
+    }
+    else{
+        return -1;
+    }
+
+}
+
 OpeDB::~OpeDB()
 {
     m_db.close();

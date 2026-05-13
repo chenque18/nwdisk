@@ -7,6 +7,10 @@ typedef unsigned int uint;
 
 #define LOGIN_OK "login ok"
 #define LOGIN_FAILED "login failed"
+
+#define SEARCH_USR_NO "no such people"
+#define SEARCH_USR_ONLINE "online"
+#define SEARCH_USR_OFFLINE "offline"
 //将消息类型写成枚举类
 enum ENUM_MSG_TYPE{
     ENUM_MSG_TYPE_MIN=0,

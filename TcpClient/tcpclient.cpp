@@ -115,6 +115,19 @@ void TcpClient::receivemsg()
         OpeWidget::getInstance().getFriend()->showAllOnlineUsr(pdu);//获得好友界面
         break;
     }
+    case ENUM_MSG_TYPE_SEARCH_USR_RESPOND:{
+        if(0==strcmp(SEARCH_USR_NO, pdu->caData)){
+            QMessageBox::information(this,"搜索",QString("%1:不存在").arg(OpeWidget::getInstance().getFriend()->m_strSearchName));
+        }
+        else if (0 == strcmp(SEARCH_USR_ONLINE, pdu->caData))
+        {
+            QMessageBox::information(this,"搜索",QString("%1:在线").arg(OpeWidget::getInstance().getFriend()->m_strSearchName));
+        }
+        else if (0 == strcmp(SEARCH_USR_OFFLINE, pdu->caData))
+        {
+            QMessageBox::information(this,"搜索",QString("%1:不在线").arg(OpeWidget::getInstance().getFriend()->m_strSearchName));
+        }
+    }
 
 
 

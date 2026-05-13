@@ -16,6 +16,7 @@ public:
     bool handleLogin(const char* name,const char* pwd);
     void handleOFFline(const char* name);
     QStringList handleAllOnline();//
+    int handleSearchUsr(const char* name);
     ~OpeDB();//析构函数关闭数据库
 
 signals:
